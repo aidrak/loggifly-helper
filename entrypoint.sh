@@ -25,16 +25,16 @@ else
 fi
 
 # Create required directories with proper permissions
-LOG_DIR=$(dirname "${LOG_FILE:-/data/logs/loggifly-notifications.log}")
+NOTIFICATIONS_DIR=$(dirname "${NOTIFICATIONS_LOG:-/data/logs/loggifly.log}")
 echo "Creating directory structure under /data..."
-mkdir -p "$LOG_DIR"
+mkdir -p "$NOTIFICATIONS_DIR"
 
 # Set ownership of /data directory
 chown -R $PUID:$PGID /data
 
 # Test log file write permissions
-if ! gosu $PUID:$PGID touch "${LOG_FILE:-/data/logs/loggifly-notifications.log}"; then
-    echo "ERROR: Cannot write to log file ${LOG_FILE:-/data/logs/loggifly-notifications.log}"
+if ! gosu $PUID:$PGID touch "${NOTIFICATIONS_LOG:-/data/logs/loggifly.log}"; then
+    echo "ERROR: Cannot write to notifications log ${NOTIFICATIONS_LOG:-/data/logs/loggifly.log}"
     echo "Please check volume mount permissions"
     exit 1
 fi
@@ -42,7 +42,8 @@ fi
 echo "Configuration:"
 echo "  Port: ${PORT:-5353}"
 echo "  Host: ${HOST:-0.0.0.0}"
-echo "  Log File: ${LOG_FILE:-/data/logs/loggifly-notifications.log}"
+echo "  Log Level: ${LOG_LEVEL:-INFO}"
+echo "  Notifications Log: ${NOTIFICATIONS_LOG:-/data/logs/loggifly.log}"
 echo "  Log Format: ${LOG_FORMAT:-detailed}"
 echo "  Log Rotation: ${LOG_ROTATION:-true}"
 echo "  User: $PUID:$PGID"

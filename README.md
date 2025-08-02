@@ -1,14 +1,23 @@
-## File Structure
+### Log Rotation
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `LOG_ROTATION` | `true` | Enable/disable log rotation |
+| `MAX_LOG_SIZE` | `10MB` | Max size before rotation (KB, MB, GB) |
+| `BACKUP_COUNT` | `5` | Number of rotated files to keep |## File Structure
 
 When mounted to `/mnt/user/appdata/loggifly-webhook`, the container creates:
 ```
 /mnt/user/appdata/loggifly-webhook/
-├── logs/
-│   ├── loggifly-notifications.log
-│   ├── loggifly-notifications.log.1 (rotated)
-│   └── loggifly-notifications.log.2 (rotated)
-└── config/ (reserved for future use)
-```# LoggiFly Helper
+└── logs/
+    ├── loggifly.log                     (current LoggiFly alerts)
+    ├── loggifly.log.1                   (rotated alerts)
+    └── loggifly.log.2                   (rotated alerts)
+```
+
+## Log Output
+
+- **`/logs/loggifly.log`** - LoggiFly alerts ONLY (with rotation)
+- **Console output** - Container startup, health checks, errors (visible in `docker logs`)# LoggiFly Helper
 
 ![LoggiFly Helper](icon.png)
 
@@ -62,7 +71,9 @@ docker run -d \
 |----------|---------|-------------|
 | `PORT` | `5353` | Port to listen on |
 | `HOST` | `0.0.0.0` | Host interface to bind |
-| `LOG_FILE` | `/data/logs/loggifly-notifications.log` | Path to log file |
+| `LOG_LEVEL` | `INFO` | Logging level (DEBUG, INFO, WARNING, ERROR) |
+| `LOG_FORMAT` | `detailed` | Log format (`detailed`, `simple`, `json`) |
+| `NOTIFICATIONS_LOG` | `/data/logs/loggifly.log` | LoggiFly alerts log file |
 | `PUID` | `99` | User ID for file permissions (Unraid: nobody) |
 | `PGID` | `100` | Group ID for file permissions (Unraid: users) |
 

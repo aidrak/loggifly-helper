@@ -1,0 +1,32 @@
+services:
+  loggifly-helper:
+    build: .
+    container_name: loggifly-helper-test
+    ports:
+      - "5353:5353"
+    volumes:
+      - /mnt/user/appdata/loggifly-helper-test:/data
+    environment:
+      - PUID=99
+      - PGID=100
+      - LOG_LEVEL=INFO
+      # Uncomment to override defaults:
+      # - LOG_FORMAT=json
+      # - MAX_LOG_SIZE=1MB
+      # - BACKUP_COUNT=2
+      # - LOG_ROTATION=false
+    restart: unless-stopped
+    networks:
+      - tools_net
+    
+    # For health checking
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5353/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  tools_net:
+    external: true

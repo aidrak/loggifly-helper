@@ -34,7 +34,8 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
 # Set default environment variables
 ENV PORT=5353 \
     HOST=0.0.0.0 \
-    LOG_FILE=/data/logs/loggifly-notifications.log \
+    LOG_LEVEL=INFO \
+    NOTIFICATIONS_LOG=/data/logs/loggifly.log \
     LOG_FORMAT=detailed \
     LOG_ROTATION=true \
     MAX_LOG_SIZE=10MB \
