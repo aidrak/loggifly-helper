@@ -1,8 +1,28 @@
-# LoggiFly Helper
+## File Structure
+
+When mounted to `/mnt/user/appdata/loggifly-webhook`, the container creates:
+```
+/mnt/user/appdata/loggifly-webhook/
+├── logs/
+│   ├── loggifly-notifications.log
+│   ├── loggifly-notifications.log.1 (rotated)
+│   └── loggifly-notifications.log.2 (rotated)
+└── config/ (reserved for future use)
+```# LoggiFly Helper
 
 ![LoggiFly Helper](icon.png)
 
 A lightweight webhook receiver that logs LoggiFly notifications to files. Designed for Unraid and other Docker environments where you want to capture LoggiFly alerts in log files instead of external notification services.
+
+## What It Does
+
+LoggiFly Helper acts as a webhook endpoint that receives notifications from [LoggiFly](https://github.com/clemcer/loggifly) and writes them to log files. Instead of sending alerts to Discord, Slack, or other external services, you can use this container to maintain a local log of all your Docker container events.
+
+Perfect for situations where you want to:
+- Keep a permanent record of container alerts
+- Analyze patterns in your logs
+- Have offline access to notification history
+- Maintain privacy by not using external services
 
 ## Features
 
@@ -21,16 +41,19 @@ A lightweight webhook receiver that logs LoggiFly notifications to files. Design
 docker run -d \
   --name loggifly-helper \
   -p 5353:5353 \
-  -v /path/to/logs:/logs \
-  -e LOG_LEVEL=INFO \
+  -v /path/to/data:/data \
+  -e PUID=99 \
+  -e PGID=100 \
   aidrak/loggifly-helper:latest
 ```
 
 ### Unraid Template
 - **Repository**: `aidrak/loggifly-helper:latest`
 - **Port**: `5353:5353`
-- **Volume**: `/mnt/user/appdata/loggifly-helper/logs:/logs`
-- **Environment**: `LOG_FORMAT=detailed` (optional)
+- **Volume**: `/mnt/user/appdata/loggifly-webhook:/data`
+- **Environment**: 
+  - `PUID=99`
+  - `PGID=100`
 
 ## Environment Variables
 
@@ -39,7 +62,9 @@ docker run -d \
 |----------|---------|-------------|
 | `PORT` | `5353` | Port to listen on |
 | `HOST` | `0.0.0.0` | Host interface to bind |
-| `LOG_FILE` | `/logs/loggifly-notifications.log` | Path to log file |
+| `LOG_FILE` | `/data/logs/loggifly-notifications.log` | Path to log file |
+| `PUID` | `99` | User ID for file permissions (Unraid: nobody) |
+| `PGID` | `100` | Group ID for file permissions (Unraid: users) |
 
 ### Log Formatting
 | Variable | Default | Description |

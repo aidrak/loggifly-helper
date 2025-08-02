@@ -12,7 +12,7 @@ app = Flask(__name__)
 # Environment variable configuration
 PORT = int(os.getenv('PORT', 5353))
 HOST = os.getenv('HOST', '0.0.0.0')
-LOG_FILE = os.getenv('LOG_FILE', '/logs/loggifly-notifications.log')
+LOG_FILE = os.getenv('LOG_FILE', '/data/logs/loggifly-notifications.log')
 LOG_FORMAT = os.getenv('LOG_FORMAT', 'detailed')  # detailed, simple, json
 LOG_ROTATION = os.getenv('LOG_ROTATION', 'true').lower() == 'true'
 MAX_LOG_SIZE = os.getenv('MAX_LOG_SIZE', '10MB')
