@@ -1,0 +1,36 @@
+# Build artifacts
+*.log
+*.tmp
+/build/
+/dist/
+/target/
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# Node.js (if applicable)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Python (if applicable)
+__pycache__/
+*.pyc
+.pytest_cache/
