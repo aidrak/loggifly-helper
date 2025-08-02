@@ -28,7 +28,6 @@ fi
 LOG_DIR=$(dirname "${LOG_FILE:-/data/logs/loggifly-notifications.log}")
 echo "Creating directory structure under /data..."
 mkdir -p "$LOG_DIR"
-mkdir -p /data/config
 
 # Set ownership of /data directory
 chown -R $PUID:$PGID /data
